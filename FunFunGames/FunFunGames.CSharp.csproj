@@ -69,6 +69,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Divider.cs" />
+    <Compile Include="Assets\GridCollisionDetection.cs" />
     <Compile Include="Assets\Scripts\BoosterpackGamblingController.cs" />
     <Compile Include="Assets\Scripts\Buyable.cs" />
     <Compile Include="Assets\Scripts\Card.cs" />
