@@ -4,11 +4,19 @@ using UnityEditor;
 using System.Collections;
 using System.IO;
 
+public enum Rarity
+{
+    Normal,
+    Rare,
+    Epic
+}
+
 [CreateAssetMenu(fileName = "New card")]
 public class Card : ScriptableObject
 {
     public int Id;
     public string CardName;
+    public Rarity Rarity;
     public string Description;
     public Image BackgroundCardImage; 
 

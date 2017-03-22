@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public enum ItemType
 {
@@ -22,4 +22,5 @@ public class Buyable : MonoBehaviour
     public CardType CardType;
     public float ProductPrice;
     public int ProductAmount;
+    public List<Card> PossibleRewards = new List<Card>();
 }

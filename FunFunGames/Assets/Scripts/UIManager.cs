@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum MessageType
 {
@@ -22,6 +23,10 @@ public class UIManager : MonoBehaviour
     public GameObject OldSubMenu;
 
     public GameObject ConfirmationPopUp;
+
+    public Scrollbar BoosterpackScrollbar;
+
+    public AnimationCurve AcScrollbar;
 
     private Canvas _canvas;
     private Player _player;
@@ -142,5 +147,42 @@ public class UIManager : MonoBehaviour
         ConfirmationPopUp.SetActive(_confirmSwitch);
 
         return product;
+    }
+
+    public void OpenPackage()
+    {
+        // 8.5
+        StartCoroutine(BoosterpackScroller(25f));
+    }
+
+    public IEnumerator BoosterpackScroller(float time)
+    {
+        DateTime startSpinTime = System.DateTime.Now;
+        float timer = 0.0f;
+        float startScrollValue = BoosterpackScrollbar.value;
+        float maxScrollValue = 0.9f;
+
+        while (timer < time)
+        {
+            float currentTime = (float)(System.DateTime.Now - startSpinTime).TotalSeconds;
+            float acceleration = 1 * currentTime;
+            float value = AcScrollbar.Evaluate(timer / time) * maxScrollValue;
+            BoosterpackScrollbar.value = (value + startScrollValue);
+
+            timer += (Time.deltaTime * acceleration);
+            yield return 0;
+            //BoosterpackScrollbar.value = (maxScrollValue + startScrollValue);
+
+            //Debug.Log("Boosterpack SCroller Ienumerator");
+
+            //float scrollBarValue = BoosterpackScrollbar.value;
+
+            //scrollBarValue += 0.1f * Time.deltaTime;
+            //Debug.Log(scrollBarValue);
+
+            //BoosterpackScrollbar.value = scrollBarValue;
+        }
+
+        BoosterpackScrollbar.value = (maxScrollValue + startScrollValue);
     }
 }
