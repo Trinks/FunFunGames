@@ -7,16 +7,20 @@ using System;
 public enum MessageType
 {
     PurchaseSuccesful,
-    NotEnoughMoney
+    NotEnoughMoney,
+    NotEnoughFunPoints,
+    SelectPackage,
+    NotEnoughBoosterpacks,
 }
 
 public class UIManager : MonoBehaviour
 {
-    // A collection with all of the sub menu's. | Index 0 = MainBox | Index 1 = ShowDeckBox | Index 2 = VolumeBox | Index 3 = BuyBoostersPacksBox | Index 4 = BuyFunPointsBox
+    // A collection with all of the sub menu's. | Index 0 = MainBox | Index 1 = ShowInventoryBox | Index 2 = VolumeBox | Index 3 = BuyBoostersPacksBox | Index 4 = BuyFunPointsBox
     public List<GameObject> SubMenus = new List<GameObject>();
 
     // A collection with all of the text components that have a function. [Fun Points section = | Index 0 = Wallet | Index 1 = FunPoints | Index 2 = Warning message],
-    // [Boosterpack section = | Index 3 = Wallet | Index 4 = FunPoints | Index 5 = Warning message][Confirmation Pop up = | Index = 6]
+    // [Buy boosterpack section = | Index 3 = Wallet | Index 4 = FunPoints | Index 5 = Warning message][Confirmation Pop up = | Index = 6]
+    // [Open boosterpack section = | Index 7 = warning message
     public List<Text> TextComponents = new List<Text>();
 
     public GameObject CurrentSubMenu;
@@ -72,20 +76,7 @@ public class UIManager : MonoBehaviour
         OldSubMenu.SetActive(false);
         CurrentSubMenu.SetActive(true);
 
-        if (subMenu == SubMenus[3].gameObject)
-        {
-            UpdateTextComponent(3, "Wallet: $" + _player.Money.ToString("F2"));
-            UpdateTextComponent(4, "Fun Points: " + _player.FunPoints);
-            UpdateTextComponent(5, "Please select a package you'd like to buy.");
-            TextComponents[5].color = Color.black;
-        }
-        else if (subMenu == SubMenus[4].gameObject)
-        {
-            UpdateTextComponent(0, "Wallet: $" + _player.Money.ToString("F2"));
-            UpdateTextComponent(1, "Fun Points: " + _player.FunPoints);
-            UpdateTextComponent(2, "Please select a package you'd like to buy.");
-            TextComponents[5].color = Color.black;
-        }
+        SendMessage(MessageType.SelectPackage, 0, "");
     }
 
     /// <summary>
@@ -100,16 +91,22 @@ public class UIManager : MonoBehaviour
 
     public void SendMessage(MessageType msgType, int productAmount, string productName)
     {
-        Text text = TextComponents[3];
+        Text text = null;
 
+        //Index 3 = BuyBoostersPacksBox | Index 4 = BuyFunPointsBox
         if (SubMenus[3] == CurrentSubMenu)
         {
-            text = TextComponents[3];
+            text = TextComponents[5];
+            UpdateTextComponent(3, "Wallet: $" + _player.Money.ToString("F2"));
+            UpdateTextComponent(4, "Fun Points: " + _player.FunPoints);
         }
         else if (SubMenus[4] == CurrentSubMenu)
         {
-            text = TextComponents[5];
+            text = TextComponents[2];
+            UpdateTextComponent(0, "Wallet: $" + _player.Money.ToString("F2"));
+            UpdateTextComponent(1, "Fun Points: " + _player.FunPoints);
         }
+        else return;
 
         switch (msgType)
         {
@@ -121,9 +118,19 @@ public class UIManager : MonoBehaviour
                 text.color = Color.red;
                 text.text = "You don't have enough money to buy " + productName + "!";
                 break;
+            case MessageType.NotEnoughFunPoints:
+                text.color = Color.red;
+                text.text = text.text = "You don't have enough fun points to buy " + productName + "!";
+                break;
+            case MessageType.SelectPackage:
+                text.color = Color.black;
+                text.text = "Please select a package you'd like to buy.";
+                break;
+            case MessageType.NotEnoughBoosterpacks:
+                text.color = Color.red;
+                text.text = "You don't have enough boosterpacks to open a boosterpack!";
+                break;
             default:
-                text.color = Color.grey;
-                text.text = "Please contact the developers how you got this message!";
                 break;
         }
     }
@@ -139,8 +146,8 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-
-        TextComponents[6].text = "You're about to buy " + buyable.ProductName + ". This will cost you " + buyable.ProductPrice + " press 'Buy now!' to complete your purchase!";
+        string productPrice = (buyable.ProductType != ItemType.FunPoints) ? buyable.ProductPrice + " fun points" :  "$" + buyable.ProductPrice + " dollars";
+        TextComponents[6].text = "You're about to buy " + buyable.ProductName + ". This will cost you " + productPrice + " press 'Buy now!' to complete your purchase!";
         product = buyable;
     }
 
@@ -154,6 +161,6 @@ public class UIManager : MonoBehaviour
 
     public void OpenPackage()
     {
-        StartCoroutine(_gamblingController.SpawnCard());
+        StartCoroutine(_gamblingController.SpawnCard(_player));
     }
 }

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
     public float Money;
     public int FunPoints;
+    public List<Boosterpack> BoosterpackCollection = new List<Boosterpack>();
+    public List<Card> CardCollection = new List<Card>();
 
     /// <summary>
     /// Decrease the player his total amount of money by value.
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     /// <param name="value">Money</param>
     public void DecreaseMoney(float value)
     {
+        if (Money <= 0) return;
         Money -= value;
     }
 
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
     /// <param name="value">Fun Points</param>
     public void DecreaseFunPoints(int value)
     {
+        if (FunPoints <= 0) return;
         FunPoints -= value;
     }
 

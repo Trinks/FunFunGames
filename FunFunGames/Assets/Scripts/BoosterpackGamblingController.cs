@@ -5,10 +5,6 @@ using System.Collections.Generic;
 
 public class BoosterpackGamblingController : MonoBehaviour
 {
-    public List<Card> NormalCards = new List<Card>();
-    public List<Card> RareCards = new List<Card>();
-    public List<Card> EpicCards = new List<Card>();
-
     public List<GameObject> Grid = new List<GameObject>();
     public List<GameObject> PanelsSorting = new List<GameObject>();
 
@@ -24,8 +20,9 @@ public class BoosterpackGamblingController : MonoBehaviour
     private int Numeration = 0;
     private bool _spinning = false;
 
-    public IEnumerator SpawnCard()
+    public IEnumerator SpawnCard(Player player)
     {
+        if (player.BoosterpackCollection.Count <= 0) yield break;
         if (_spinning) yield break;
 
         DateTime startSpinTime = DateTime.Now;
@@ -70,6 +67,10 @@ public class BoosterpackGamblingController : MonoBehaviour
                 yield return new WaitForSeconds(UIObj.AcScrollbar.Evaluate((float)Numeration / (float)CardPackTotal) * (Time.deltaTime / 2));
             }
         }
+
+        // Remove boosterpack from inventory
+        player.BoosterpackCollection.RemoveAt(0);
+        //player.BoosterpackCollection.Sort();
 
         // Winning item send to inventory etc........
         GameObject winningItem = PanelsSorting[5];

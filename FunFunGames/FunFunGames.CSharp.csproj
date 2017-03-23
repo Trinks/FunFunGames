@@ -69,17 +69,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Divider.cs" />
-    <Compile Include="Assets\GridCollisionDetection.cs" />
+    <Compile Include="Assets\Scripts\Boosterpack.cs" />
     <Compile Include="Assets\Scripts\BoosterpackGamblingController.cs" />
     <Compile Include="Assets\Scripts\Buyable.cs" />
     <Compile Include="Assets\Scripts\Card.cs" />
-    <Compile Include="Assets\Scripts\FunPointsShop.cs" />
+    <Compile Include="Assets\Scripts\Divider.cs" />
+    <Compile Include="Assets\Scripts\GridCollisionDetection.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\ShopManager.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\teskt.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
