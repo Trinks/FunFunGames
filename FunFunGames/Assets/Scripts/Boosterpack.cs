@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Boosterpack : MonoBehaviour
+public class Boosterpack
 {
     public CardType Rarity;
 }

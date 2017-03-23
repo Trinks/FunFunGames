@@ -22,7 +22,11 @@ public class BoosterpackGamblingController : MonoBehaviour
 
     public IEnumerator SpawnCard(Player player)
     {
-        if (player.BoosterpackCollection.Count <= 0) yield break;
+        if (player.BoosterpackCollection.Count <= 0)
+        {
+            UIObj.SendMessage(MessageType.NotEnoughBoosterpacks, 0, "");
+            yield break;
+        }
         if (_spinning) yield break;
 
         DateTime startSpinTime = DateTime.Now;
@@ -51,6 +55,7 @@ public class BoosterpackGamblingController : MonoBehaviour
                         PanelsSorting[PanelsSorting.Count - 1] = panel;
                         panel.transform.position = Grid[10].transform.position;
 
+                        panel.GetComponent<UnityEngine.UI.Image>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
                         /*
                          * Assign new data card for panel over here.
                          */ 

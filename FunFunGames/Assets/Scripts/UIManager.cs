@@ -106,6 +106,10 @@ public class UIManager : MonoBehaviour
             UpdateTextComponent(0, "Wallet: $" + _player.Money.ToString("F2"));
             UpdateTextComponent(1, "Fun Points: " + _player.FunPoints);
         }
+        else if(SubMenus[5] == CurrentSubMenu)
+        {
+            text = TextComponents[7];
+        }
         else return;
 
         switch (msgType)
@@ -162,5 +166,11 @@ public class UIManager : MonoBehaviour
     public void OpenPackage()
     {
         StartCoroutine(_gamblingController.SpawnCard(_player));
+        Debug.Log(_player.BoosterpackCollection.Count);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
