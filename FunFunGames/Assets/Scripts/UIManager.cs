@@ -154,7 +154,6 @@ public class UIManager : MonoBehaviour
 
     public void OpenPackage()
     {
-        //StartCoroutine(_gamblingController.SpawnCard());
-        StartCoroutine(_gamblingController.BoosterpackScroller());
+        StartCoroutine(_gamblingController.SpawnCard());
     }
 }

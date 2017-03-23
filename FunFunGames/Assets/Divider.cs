@@ -6,39 +6,21 @@ public class Divider : MonoBehaviour
 {
     public BoosterpackGamblingController Gb;
 
-    public Image RaycastToDivider;
+    public GameObject RaycastReceiver;
 
-    //public RectTransform DividerObj;
-
-    public void Update()
+    public GameObject GetWinningItem()
     {
         RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(transform.position);
+        GameObject raycastedObject = null;
 
-        Debug.DrawLine(transform.position, RaycastToDivider.transform.position, Color.red);
+        Debug.DrawLine(transform.position, RaycastReceiver.transform.position, Color.red);
 
-        if (Physics.Raycast(transform.position, RaycastToDivider.transform.position, out hit))
+        if (Physics.Raycast(transform.position, RaycastReceiver.transform.position, out hit))
         {
-            print(hit.transform.name);
+            raycastedObject = hit.transform.gameObject;
+            Debug.Log(raycastedObject.name);
         }
+
+        return raycastedObject;
     }
-    //public void CheckIfOverlaps()
-    //{
-
-    //    Rect temp = DividerObj.rect;
-
-    //    if (Gb.Timer >= Gb.MaxTime)
-    //    {
-    //        Debug.Log(GetComponent<Rect>().Overlaps(temp));
-    //    }
-    //}
-
-    //void OnCollisionEnter(Collision col)
-    //{
-    //    Debug.Log(col.gameObject.name);
-    //    if (Gb.Timer >= Gb.MaxTime)
-    //    {
-    //        Gb.GetItemWin(col.gameObject);
-    //    }
-    //}
 }

@@ -7,7 +7,6 @@ public class GridCollisionDetection : MonoBehaviour
 
     public bool OnTriggerEnter(Collider col)
     {
-        Debug.Log(col);
         return col;
     }
 }
