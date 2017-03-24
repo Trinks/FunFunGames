@@ -44,8 +44,6 @@ public class ShopManager : MonoBehaviour
 
             PlayerObj.DecreaseFunPoints((int)product.ProductPrice);
             PlayerObj.BoosterpackCollection.Add(new Boosterpack { Rarity = product.CardType });
-
-            Debug.Log(PlayerObj.BoosterpackCollection[0].Rarity);
         }
 
         int correctWalletComponent = (UIObj.SubMenus[4] == UIObj.CurrentSubMenu) ? 0 : 3;

@@ -28,7 +28,7 @@ public class FunPointsShop : MonoBehaviour
         PlayerObj.DecreaseMoney(product.ProductPrice);
         PlayerObj.IncreaseFunPoints(product.ProductAmount);
 
-        UIObj.UpdateTextComponent(0, "Wallet: $" + PlayerObj.Money.ToString("F2"));
-        UIObj.UpdateTextComponent(1, "Fun Points: " + PlayerObj.FunPoints.ToString());
+        UIObj.UpdateTextComponent(0, "WALLET: $" + PlayerObj.Money.ToString("F2"));
+        UIObj.UpdateTextComponent(1, "FUN POINTS: " + PlayerObj.FunPoints.ToString());
     }
 }

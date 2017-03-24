@@ -58,10 +58,10 @@ public class UIManager : MonoBehaviour
         }
 
         // Update all of the active text components.
-        UpdateTextComponent(0, "Wallet: $" + _player.Money.ToString("F2"));
-        UpdateTextComponent(1, "Fun Points: " + _player.FunPoints);
-        UpdateTextComponent(3, "Wallet: $" + _player.Money.ToString("F2"));
-        UpdateTextComponent(4, "Fun Points: " + _player.FunPoints);
+        UpdateTextComponent(0, "WALLET: $" + _player.Money.ToString("F2"));
+        UpdateTextComponent(1, "FUN POINTS: " + _player.FunPoints);
+        UpdateTextComponent(3, "WALLET: $" + _player.Money.ToString("F2"));
+        UpdateTextComponent(4, "FUN POINTS: " + _player.FunPoints);
     }
 
     /// <summary>
@@ -97,14 +97,14 @@ public class UIManager : MonoBehaviour
         if (SubMenus[3] == CurrentSubMenu)
         {
             text = TextComponents[5];
-            UpdateTextComponent(3, "Wallet: $" + _player.Money.ToString("F2"));
-            UpdateTextComponent(4, "Fun Points: " + _player.FunPoints);
+            UpdateTextComponent(3, "WALLET: $" + _player.Money.ToString("F2"));
+            UpdateTextComponent(4, "FUN POINTS: " + _player.FunPoints);
         }
         else if (SubMenus[4] == CurrentSubMenu)
         {
             text = TextComponents[2];
-            UpdateTextComponent(0, "Wallet: $" + _player.Money.ToString("F2"));
-            UpdateTextComponent(1, "Fun Points: " + _player.FunPoints);
+            UpdateTextComponent(0, "WALLET: $" + _player.Money.ToString("F2"));
+            UpdateTextComponent(1, "FUN POINTS: " + _player.FunPoints);
         }
         else if(SubMenus[5] == CurrentSubMenu)
         {
@@ -116,23 +116,23 @@ public class UIManager : MonoBehaviour
         {
             case MessageType.PurchaseSuccesful:
                 text.color = Color.green;
-                text.text = "You have succesfully bought " + productAmount.ToString() + " " + productName + "!";
+                text.text = "YOU HAVE SUCCESFULLY BOUGHT " + productAmount.ToString() + " " + productName + "!";
                 break;
             case MessageType.NotEnoughMoney:
                 text.color = Color.red;
-                text.text = "You don't have enough money to buy " + productName + "!";
+                text.text = "YOU DON'T HAVE ENOUGH MONEY TO BUY " + productName + "!";
                 break;
             case MessageType.NotEnoughFunPoints:
                 text.color = Color.red;
-                text.text = text.text = "You don't have enough fun points to buy " + productName + "!";
+                text.text = text.text = "YOU DON'T HAVE ENOUGH FUN POINTS TO BUY " + productName + "!";
                 break;
             case MessageType.SelectPackage:
-                text.color = Color.black;
-                text.text = "Please select a package you'd like to buy.";
+                text.color = Color.white;
+                text.text = "PLEASE SELECT A PACKAGE THAT YOU'D LIKE TO BUY.";
                 break;
             case MessageType.NotEnoughBoosterpacks:
                 text.color = Color.red;
-                text.text = "You don't have enough boosterpacks to open a boosterpack!";
+                text.text = "YOU DON'T HAVE ANY BOOSTERPACKS TO OPEN!";
                 break;
             default:
                 break;
@@ -166,7 +166,6 @@ public class UIManager : MonoBehaviour
     public void OpenPackage()
     {
         StartCoroutine(_gamblingController.SpawnCard(_player));
-        Debug.Log(_player.BoosterpackCollection.Count);
     }
 
     public void Quit()

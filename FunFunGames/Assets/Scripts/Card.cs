@@ -16,9 +16,11 @@ public class Card : ScriptableObject
 {
     public int Id;
     public string CardName;
-    public Rarity Rarity;
+    public CardType Rarity;
     public string Description;
-    public Image BackgroundCardImage; 
+    public Sprite RaritySpriteBackground;
+    public Sprite IconRarity;
+    public Sprite CharacterSprite;
 
     public Card()
     {
