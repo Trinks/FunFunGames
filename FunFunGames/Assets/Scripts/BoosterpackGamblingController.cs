@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 public class BoosterpackGamblingController : MonoBehaviour
 {
+    public static BoosterpackGamblingController Instance;
     public List<GameObject> Grid = new List<GameObject>();
     public List<GameObject> PanelsSorting = new List<GameObject>();
 
@@ -24,6 +26,11 @@ public class BoosterpackGamblingController : MonoBehaviour
     public int CardsToSpawn = 50;
     private int Numeration = 0;
     private bool _spinning = false;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public IEnumerator SpawnCard(Player player)
     {
@@ -59,7 +66,6 @@ public class BoosterpackGamblingController : MonoBehaviour
                         PanelsSorting[PanelsSorting.Count - 1] = panel;
                         panel.transform.position = Grid[10].transform.position;
 
-                        Debug.Log(Numeration);
                         cardPanel.CardCharacter.sprite = _randomizedCardSpawnList[Numeration].CharacterSprite;
                         cardPanel.BackgroundCardRarity.sprite = _randomizedCardSpawnList[Numeration].RaritySpriteBackground;
                         cardPanel.CardName.text = _randomizedCardSpawnList[Numeration].CardName;
@@ -83,6 +89,8 @@ public class BoosterpackGamblingController : MonoBehaviour
         // Winning item send to inventory etc........
         CardPanel winningItem = PanelsSorting[5].GetComponent<CardPanel>();
 
+        Inventory.Instance.CardPanels.Add(winningItem);
+
         Card card = ScriptableObject.CreateInstance<Card>();
         card.CardName = winningItem.CardName.text;
         card.Description = winningItem.CardDescription.text;
@@ -97,6 +105,10 @@ public class BoosterpackGamblingController : MonoBehaviour
         yield break;
     }
 
+    /// <summary>
+    /// Adds cards to a list with a given rarity to create a roulette rarity effect.
+    /// </summary>
+    /// <param name="p">Player</param>
     private void SpawnObjectsFromRarity(Player p)
     {
         CardType bp = p.BoosterpackCollection[0].Rarity;
@@ -130,17 +142,14 @@ public class BoosterpackGamblingController : MonoBehaviour
             if (i <= epic)
             {
                 _randomizedCardSpawnList.Add(GetRandomCard(CardType.Epic));
-                Debug.Log("Epic card spawned ");
             }
             else if (i <= rare)
             {
                 _randomizedCardSpawnList.Add(GetRandomCard(CardType.Rare));
-                Debug.Log("rare card spawned ");
             }
             else if (i <= normal)
             {
                 _randomizedCardSpawnList.Add(GetRandomCard(CardType.Normal));
-                Debug.Log("normal card spawned ");
             }
         }
 
@@ -148,38 +157,15 @@ public class BoosterpackGamblingController : MonoBehaviour
         _randomizedCardSpawnList = _randomizedCardSpawnList.OrderBy(a => r.Next()).ToList();
     }
 
+    /// <summary>
+    /// Selects a random card with a certain card rarity type
+    /// </summary>
+    /// <param name="type">Card rarity</param>
+    /// <returns>Card</returns>
     private Card GetRandomCard(CardType type)
     {
-        Card card = null;
+        List<Card> CollectionOfCardType = CardCollection.Where(x => x.Rarity == type).ToList();
 
-        for (int i = 0; i < CardCollection.Count; i++)
-        {
-            if (CardCollection[i].Rarity != type) continue;
-
-
-            card = CardCollection[i];
-        }
-
-        return card;
+        return CollectionOfCardType[UnityEngine.Random.Range(0, CollectionOfCardType.Count)];
     }
-
-    public IEnumerator BoosterpackScroller()
-    {
-        DateTime startSpinTime = DateTime.Now;
-        float startScrollValue = UIObj.BoosterpackScrollbar.value;
-        float maxScrollValue = 0.9f;
-
-        while (Timer < MaxTime)
-        {
-            float currentTime = (float)(DateTime.Now - startSpinTime).TotalSeconds;
-            float acceleration = 1 * currentTime;
-            float value = UIObj.AcScrollbar.Evaluate(Timer / MaxTime) * maxScrollValue;
-            UIObj.BoosterpackScrollbar.value = (value + startScrollValue);
-
-            Timer += (Time.deltaTime * acceleration);
-            yield return 0;
-        }
-        UIObj.BoosterpackScrollbar.value = (maxScrollValue + startScrollValue);
-    }
-
 }

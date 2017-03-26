@@ -7,6 +7,9 @@ public class ShopManager : MonoBehaviour
     public Player PlayerObj;
     public UIManager UIObj;
 
+    /// <summary>
+    /// Confirm the buy offer depending on the product type
+    /// </summary>
     public void BuyBuyable()
     {
         Buyable product = UIObj.GetCurrentBuyable();

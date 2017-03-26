@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,12 +34,14 @@ public class UIManager : MonoBehaviour
     public AnimationCurve AcScrollbar;
     public GameObject ContentScrollbar;
 
+    public AudioMixer MasterMixer;
+
     private Canvas _canvas;
     private Player _player;
     private BoosterpackGamblingController _gamblingController;
 
     private bool _confirmSwitch;
-    private Buyable product;
+    private Buyable _product;
 
     private void Awake()
     {
@@ -75,6 +78,11 @@ public class UIManager : MonoBehaviour
 
         OldSubMenu.SetActive(false);
         CurrentSubMenu.SetActive(true);
+
+        if (SubMenus[1] == CurrentSubMenu)
+        {
+            Inventory.Instance.SpawnCardPanelInInventory();
+        }
 
         SendMessage(MessageType.SelectPackage, 0, "");
     }
@@ -146,13 +154,13 @@ public class UIManager : MonoBehaviour
 
         if (_confirmSwitch == false)
         {
-            product = null;
+            _product = null;
             return;
         }
 
         string productPrice = (buyable.ProductType != ItemType.FunPoints) ? buyable.ProductPrice + " fun points" :  "$" + buyable.ProductPrice + " dollars";
         TextComponents[6].text = "You're about to buy " + buyable.ProductName + ". This will cost you " + productPrice + " press 'Buy now!' to complete your purchase!";
-        product = buyable;
+        _product = buyable;
     }
 
     public Buyable GetCurrentBuyable()
@@ -160,7 +168,18 @@ public class UIManager : MonoBehaviour
         _confirmSwitch = !_confirmSwitch;
         ConfirmationPopUp.SetActive(_confirmSwitch);
 
-        return product;
+        return _product;
+    }
+
+
+    public void SetMusicVolume(Slider slider)
+    {
+        MasterMixer.SetFloat("MusicVolume", slider.value);
+    }
+
+    public void SetMasterVolume(Slider slider)
+    {
+        MasterMixer.SetFloat("masterVolume", slider.value);
     }
 
     public void OpenPackage()

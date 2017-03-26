@@ -1,15 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor;
-using System.Collections;
 using System.IO;
-
-public enum Rarity
-{
-    Normal,
-    Rare,
-    Epic
-}
 
 [CreateAssetMenu(fileName = "New card")]
 public class Card : ScriptableObject
@@ -27,6 +17,10 @@ public class Card : ScriptableObject
         Id = DirectoryCount();
     }
 
+    /// <summary>
+    /// Counts all of the card objects
+    /// </summary>
+    /// <returns>Returns the amount of cards</returns>
     public static int DirectoryCount()
     {
         int i = 0;
@@ -35,7 +29,10 @@ public class Card : ScriptableObject
         foreach (FileInfo fi in fis)
         {
             if (fi.Extension.Contains("asset"))
+            {
                 i++;
+                //BoosterpackGamblingController.Instance.CardCollection.Add(Card);
+            }
         }
         return i;
     }

@@ -8,6 +8,7 @@ public class Divider : MonoBehaviour
 
     public GameObject RaycastReceiver;
 
+    // Gets the winning item by raycasting towards the object.
     public GameObject GetWinningItem()
     {
         RaycastHit hit;
@@ -18,7 +19,6 @@ public class Divider : MonoBehaviour
         if (Physics.Raycast(transform.position, RaycastReceiver.transform.position, out hit))
         {
             raycastedObject = hit.transform.gameObject;
-            Debug.Log(raycastedObject.name);
         }
 
         return raycastedObject;
